@@ -1,11 +1,7 @@
+// components/MoodSelector.tsx
 import React from "react";
-import { getAuthUrl } from '../utils/auth'; // Import the auth utility
-interface MoodSelectorProps {
-  selectedMood: string;
-  setSelectedMood: (mood: string) => void;
-}
 
-const MoodSelector: React.FC<MoodSelectorProps> = ({ selectedMood, setSelectedMood }) => {
+const MoodSelector = ({ selectedMood, setSelectedMood }: { selectedMood: string; setSelectedMood: (mood: string) => void }) => {
   const moods = [
     { name: "Happy", color: "bg-yellow-400" },
     { name: "Sad", color: "bg-blue-400" },
@@ -34,4 +30,3 @@ const MoodSelector: React.FC<MoodSelectorProps> = ({ selectedMood, setSelectedMo
 };
 
 export default MoodSelector;
-

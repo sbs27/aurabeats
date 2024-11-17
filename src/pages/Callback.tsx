@@ -1,47 +1,36 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getTokenFromUrl } from '../utils/auth';  // Function to extract token from URL
+// pages/Callback.tsx
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getTokenFromUrl, storeToken } from "../utils/auth";
 
-interface CallbackProps {
-  setAccessToken: (token: string) => void;
-}
-
-const Callback: React.FC<CallbackProps> = ({ setAccessToken }) => {
+const Callback = ({ setAccessToken }: { setAccessToken: React.Dispatch<React.SetStateAction<string>> }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Look for an access token in localStorage
-    const token = localStorage.getItem('spotify_token');
-    
-    if (token) {
-      // Token already exists, no need for re-authentication
-      console.log("Token exists in localStorage", token);
-      navigate("/app");  // Or redirect to the page you want after login
-    } else {
-      // Try to extract the token from the URL hash
-      const hash = getTokenFromUrl();
-      const newToken = hash.access_token;
+    const token = localStorage.getItem("spotify_token");
 
-      if (newToken) {
-        // If a new token is found, save it to localStorage and set the access token
-        setAccessToken(newToken);
-        localStorage.setItem('spotify_token', newToken);  // Store the token
-        console.log("New token received and stored", newToken);
-        navigate("/app");
-      } else {
-        console.log("No token found in URL hash");
-        navigate("/login");
-      }
+    if (token) {
+      // If a token is already in localStorage, navigate to /app directly
+      setAccessToken(token); // Ensure state is updated with token
+      navigate("/app");
+      return; // Exit the effect if token is already present
+    }
+
+    const hash = getTokenFromUrl();
+    const accessToken = hash.access_token;
+    const expiresIn = parseInt(hash.expires_in || "3600");
+
+    if (accessToken) {
+      // Store the token in localStorage and in the app state
+      storeToken(accessToken, expiresIn);
+      setAccessToken(accessToken); // Update the state with the new token
+      navigate("/app"); // Navigate to /app after successful authentication
+    } else {
+      navigate("/"); // If no token found, redirect to login page
     }
   }, [navigate, setAccessToken]);
 
-  return (
-    <div className="flex justify-center items-center h-screen">
-      <h1 className="text-2xl mb-8">Authenticating...</h1>
-    </div>
-  );
+  return <div>Authenticating...</div>;
 };
 
 export default Callback;
-
-
