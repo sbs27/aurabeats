@@ -1,70 +1,126 @@
-# Getting Started with Create React App
+# AuraBeats
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application allows users to log in with their Spotify account, select a mood based on **valence** (happiness) and **energy**, and get song recommendations tailored to that mood.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+1. **Login with Spotify**:  
+   - Authenticate securely using Spotify's API.  
+   - The app retrieves a token to access user data and song recommendations.  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. **Mood Selection**:  
+   - Users can choose from four predefined moods:  
+     - **Happy and Energetic**: High valence, high energy.  
+     - **Happy and Calm**: High valence, low energy.  
+     - **Sad and Energetic**: Low valence, high energy.  
+     - **Sad and Calm**: Low valence, low energy.  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. **Personalized Song Recommendations**:  
+   - Based on the selected mood, the app fetches songs that match the mood's characteristics.  
 
-### `npm test`
+4. **User Profile Display**:  
+   - After login, users can view their Spotify profile, including:  
+     - Display name  
+     - Email address  
+     - Profile picture (if available).  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+5. **Logout Option**:  
+   - Users can log out to clear their session and switch accounts.  
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Clone the repository**:  
+   ```bash
+   git clone https://github.com/your-repo-name.git
+   cd your-repo-name
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. **Switch to the correct branch**:  
+   Make sure you are on the `ishaan-fixes` branch:  
+   ```bash
+   git checkout ishaan-fixes
+   ```
 
-### `npm run eject`
+3. **Install dependencies**:  
+   ```bash
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. **Set up Spotify Developer App**:  
+   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/).  
+   - Create a new app and note the **Client ID**.  
+   - Set the **Redirect URI** to `http://localhost:3000/callback`.  
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. **Update the configuration**:  
+   - In `src/utils/auth.ts`, replace the `CLIENT_ID` and `REDIRECT_URI` with your app's values.  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+6. **Start the app**:  
+   ```bash
+   npm start
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Usage
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **Log In**:  
+   - Click the "Login with Spotify" button on the home page.  
+   - Authorize the app to access your Spotify account.  
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. **Select a Mood**:  
+   - Choose a mood from the four available options.  
 
-### Code Splitting
+3. **Get Songs**:  
+   - The app fetches songs from Spotify that match the selected mood.  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+4. **View Profile**:  
+   - Navigate to the profile page to view your Spotify user details.  
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Technical Overview
 
-### Making a Progressive Web App
+1. **Front-End**:  
+   - Built with React (TypeScript).  
+   - Tailwind CSS for styling.  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. **Authentication**:  
+   - OAuth 2.0 with Spotify's implicit grant flow.  
 
-### Advanced Configuration
+3. **APIs**:  
+   - Spotify Web API to fetch user data and song recommendations.  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+4. **State Management**:  
+   - `useState` and `useEffect` hooks manage the app's token and fetched data.  
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Future Improvements
 
-### `npm run build` fails to minify
+- Add more moods or allow custom mood selection.  
+- Implement pagination for song recommendations.  
+- Improve error handling and UI/UX.  
+- Deploy the app and switch from `http://localhost:3000` to a production-ready domain.  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## Troubleshooting
+
+1. **Redirect URI Mismatch**:  
+   - Ensure the redirect URI in `Spotify Developer Dashboard` matches the one in `src/utils/auth.ts`.  
+
+2. **Token Expiry**:  
+   - Log out and log back in if your token expires.  
+
+3. **CORS Issues**:  
+   - Use a proxy or ensure your API calls follow Spotify's guidelines.  
+
+---
+
+**Note**: Kindly ensure you are on the `ishaan-fixes` branch for the latest updates and fixes.  
+
+Enjoy discovering songs that match your mood! 🎶  
